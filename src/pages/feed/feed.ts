@@ -61,16 +61,6 @@ export class FeedPage {
   ionViewDidLoad() {
     console.log('Comando ionViewDidLoad é utilizado para executar algo ante de carregar a pagina vinculada ao typescript.');
     console.log('Porém só executa na primeira chamada da página.');
-    //alert(this.somarDoisNumeros(5, 8));
-    /* this.movieProviders.getMoviesLanguage().subscribe(
-      data=>{
-        const response = (data as any);
-        console.log(response);
-        const objetoRetorno = JSON.parse(response._body);
-        console.log(objetoRetorno);
-      }, error => {
-        console.log("Erro: " + error);
-      }); */
 
     this.movieProviders.getMoviesPopular().subscribe(
       data=>{
@@ -78,10 +68,17 @@ export class FeedPage {
         console.log(response);
         const objetoRetorno = JSON.parse(response._body);
         this.listaFilmes = objetoRetorno.results;
+        //this.mudarValorData(this.listaFilmes);
         console.log(objetoRetorno);
       }, error => {
         console.log("Erro: " + error);
       });
+  }
+
+  mudarValorData(lista: Array<any>){
+    lista.forEach(element => {
+      element.release_date = new Date(element.release_date).toLocaleDateString();
+    });
   }
 
 }
