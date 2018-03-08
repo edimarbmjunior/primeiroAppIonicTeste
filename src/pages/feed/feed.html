@@ -14,47 +14,121 @@
 
 <ion-content padding>
 
-  <!-- <div>
-    <h1>Nome de usuário</h1>    
-  </div> -->
-
-  <ion-card>
+  <!-- Loop com JSON resposta de outro lugar -->
+  <ion-card padding-top *ngFor="let filme of listaFilmes">
 
     <ion-item>
       <ion-avatar item-start>
         <img src="assets/imgs/marty-avatar.png">
       </ion-avatar>
-      <h2 class="h2FeedTitle">{{ nomeUsuario }}</h2>
-      <p class="feedDate">November 5, 1955</p>
+      <h2 class="h2FeedTitle">{{ filme.original_title }}</h2>
+      <!-- <p *ngIf="filme.title isValid"><h2 class="h2FeedTitle">{{ filme.title }}</h2></p> -->
+      <p class="feedDate">{{ filme.release_date }}</p>
     </ion-item>
 
-    <img src="assets/imgs/advance-card-bttf.png">
+    <img [src]="'https://image.tmdb.org/t/p/w500' + filme.poster_path">
 
-    <ion-card-content>
-      <p>Estou começando no ionic.</p>
-      <p>Coloquei as imagens.</p>
+    <ion-card-content text-center>
+      <p>{{ filme.overview }}</p>
     </ion-card-content>
 
     <ion-row>
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="thumbs-up"></ion-icon>
-          <div>12 Likes</div>
+          <div>{{ filme.vote_count }}</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
-          <div>4 Comments</div>
+          <div>{{ filme.vote_average }}</div>
         </button>
       </ion-col>
       <ion-col center text-center>
         <ion-note>
-          11h ago
+          {{ filme.backdrop_path }}
         </ion-note>
       </ion-col>
     </ion-row>
 
   </ion-card>
 
+  <!-- Codificação de exemplificação de codigos -->
+
+  <ion-card padding-top>
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/imgs/marty-avatar.png">
+      </ion-avatar>
+      <h2 class="h2FeedTitle">{{ objet_feed_unico.titulo }}</h2>
+      <p class="feedDate">{{ objet_feed_unico.data }}</p>
+    </ion-item>
+
+    <img src="assets/imgs/advance-card-bttf.png">
+
+    <ion-card-content text-center>
+      <p>{{ objet_feed_unico.descricao }}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{ objet_feed_unico.qntdLikes }}</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>{{ objet_feed_unico.qntdComents }}</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          {{ objet_feed_unico.timeComent }}
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+  <ion-card *ngFor="let objeto of objet_feed.objeto" margin>
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/imgs/marty-avatar.png">
+      </ion-avatar>
+      <h2 class="h2FeedTitle">{{ objeto.titulo }}</h2>
+      <p class="feedDate">{{ objeto.data }}</p>
+    </ion-item>
+
+    <img src="assets/imgs/advance-card-bttf.png">
+
+    <ion-card-content text-uppercase>
+      <p>{{ objeto.descricao }}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{ objeto.qntdLikes }}</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>{{ objeto.qntdComents }}</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          {{ objeto.timeComent }}
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
 </ion-content>

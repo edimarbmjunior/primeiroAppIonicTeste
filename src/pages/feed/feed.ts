@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MovieProvider } from '../../providers/movie/movie';
 
 /**
  * Generated class for the FeedPage page.
@@ -12,21 +13,75 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @Component({
   selector: 'page-feed',
   templateUrl: 'feed.html',
+  providers:[
+    MovieProvider
+  ]
 })
 export class FeedPage {
 
   public nomeUsuario:string = "Edimar do código";
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  public listaFilmes = new Array<any>();
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private movieProviders: MovieProvider
+  )
+    { }
 
-  somarDoisNumeros(num1: number, num2: number): number{
-    return num1 + num2;
-  }
+  public objet_feed_unico = {
+    titulo:"Edimar Jr",
+    data:"November 5, 1955",
+    descricao:"Estou começando no ionic. Coloquei as imagens.",
+    qntdLikes: 12,
+    qntdComents: 4,
+    timeComent: "11h ago"
+  };
+
+  public objet_feed = { objeto: 
+    [
+      {
+        titulo:"Edimar Jr2",
+        data:"November 5, 1955",
+        descricao:"Estou começando no ionic. Coloquei as imagens.",
+        qntdLikes: 12,
+        qntdComents: 4,
+        timeComent: "11h ago"
+      },
+      {
+        titulo:"Edimar Jr3",
+        data:"November 5, 1955",
+        descricao:"Estou começando no ionic. Coloquei as imagens.",
+        qntdLikes: 12,
+        qntdComents: 4,
+        timeComent: "11h ago"
+      }
+    ] 
+  };
 
   ionViewDidLoad() {
     console.log('Comando ionViewDidLoad é utilizado para executar algo ante de carregar a pagina vinculada ao typescript.');
     console.log('Porém só executa na primeira chamada da página.');
     //alert(this.somarDoisNumeros(5, 8));
+    /* this.movieProviders.getMoviesLanguage().subscribe(
+      data=>{
+        const response = (data as any);
+        console.log(response);
+        const objetoRetorno = JSON.parse(response._body);
+        console.log(objetoRetorno);
+      }, error => {
+        console.log("Erro: " + error);
+      }); */
+
+    this.movieProviders.getMoviesPopular().subscribe(
+      data=>{
+        const response = (data as any);
+        console.log(response);
+        const objetoRetorno = JSON.parse(response._body);
+        this.listaFilmes = objetoRetorno.results;
+        console.log(objetoRetorno);
+      }, error => {
+        console.log("Erro: " + error);
+      });
   }
 
 }
