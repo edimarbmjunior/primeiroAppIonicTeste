@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+//import { IonicPage, NavController, NavParams, IonicApp } from 'ionic-angular';
+import { App, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MovieProvider } from '../../providers/movie/movie';
 
 /**
@@ -22,11 +23,11 @@ export class FeedPage {
   public nomeUsuario:string = "Edimar do código";
   public listaFilmes = new Array<any>();
   constructor(
+    public appCtrl: App,
     public navCtrl: NavController, 
     public navParams: NavParams,
     private movieProviders: MovieProvider
-  )
-    { }
+  ){}
 
   public objet_feed_unico = {
     titulo:"Edimar Jr",
@@ -57,6 +58,24 @@ export class FeedPage {
       }
     ] 
   };
+
+  ionViewWillEnter(){
+    console.log('Comando ionViewWillEnter é utilizado sempre que entra na página.');
+    if(this.listaFilmes.length == 0){
+      console.log('Executa na primeira chamada da página.');
+      this.movieProviders.getMoviesPopular().subscribe(
+      data=>{
+        const response = (data as any);
+        console.log(response);
+        const objetoRetorno = JSON.parse(response._body);
+        this.listaFilmes = objetoRetorno.results;
+        //this.mudarValorData(this.listaFilmes);
+        console.log(objetoRetorno);
+      }, error => {
+        console.log("Erro: " + error);
+      });
+    }
+  }
 
   ionViewDidLoad() {
     console.log('Comando ionViewDidLoad é utilizado para executar algo ante de carregar a pagina vinculada ao typescript.');
