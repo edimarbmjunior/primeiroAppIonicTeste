@@ -4,5 +4,11 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [
+    {
+      "path": "/cartolaApi",
+      "proxyUrl": "https://api.cartolafc.globo.com"
+    }
+  ]
 }
