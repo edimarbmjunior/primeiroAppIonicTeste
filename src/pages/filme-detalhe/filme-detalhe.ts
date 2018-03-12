@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MovieProvider } from '../../providers/movie/movie';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 /**
  * Generated class for the FilmeDetalhePage page.
@@ -14,18 +15,21 @@ import { MovieProvider } from '../../providers/movie/movie';
   selector: 'page-filme-detalhe',
   templateUrl: 'filme-detalhe.html',
   providers:[
-    MovieProvider
+    MovieProvider,
+    Camera
   ]
 })
 export class FilmeDetalhePage {
 
   public filme;
   public filmeId;
+  img = "";
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public movieProvider: MovieProvider) {
+    public movieProvider: MovieProvider,
+    private camera: Camera) {
   }
 
   ionViewDidEnter() {
@@ -38,4 +42,19 @@ export class FilmeDetalhePage {
     })
   }
 
+  tirarFoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.img = 'data:image/jpeg;base64,' + imageData;
+      console.log(`Texto da imagem: ${this.img}`)
+    }, (err) => {
+      console.log(`Error: ${err}`)
+    });
+  }
 }
